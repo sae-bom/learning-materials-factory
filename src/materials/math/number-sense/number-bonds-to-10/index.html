@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>10 가르기 문제지</title>
+  <link rel="stylesheet" href="../../../../shared/styles/print.css">
+  <script defer src="../../../../shared/utils/print.js"></script>
   <style>
     :root {
       --ink: #171717;
@@ -14,11 +16,6 @@
     }
 
     * { box-sizing: border-box; }
-
-    @page {
-      size: A4 portrait;
-      margin: 0;
-    }
 
     body {
       margin: 0;
@@ -56,10 +53,7 @@
     }
 
     .sheet {
-      width: 210mm;
-      min-height: 297mm;
       margin: 0 auto 24px;
-      padding: 12mm 14mm 13mm;
       background: var(--paper);
       box-shadow: 0 6px 24px rgb(0 0 0 / 10%);
     }
@@ -150,28 +144,16 @@
       }
     }
 
-    @media print {
-      body { background: #fff; }
-      .toolbar { display: none; }
-      .sheet {
-        width: 210mm;
-        min-height: 297mm;
-        margin: 0;
-        box-shadow: none;
-        print-color-adjust: exact;
-        -webkit-print-color-adjust: exact;
-      }
-    }
   </style>
 </head>
 <body>
-  <nav class="toolbar" aria-label="문제지 메뉴">
-    <button type="button" onclick="window.print()">인쇄하기</button>
+  <nav class="toolbar" aria-label="문제지 메뉴" data-print-hidden>
+    <button type="button" data-print>인쇄하기</button>
     <button type="button" id="shuffleButton">문제 다시 섞기</button>
     <button type="button" id="exportButton">PNG 저장</button>
   </nav>
 
-  <main class="sheet">
+  <main class="sheet" data-print-page>
     <header class="sheet-header">
       <h1>10 가르기</h1>
     </header>

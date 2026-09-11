@@ -1,0 +1,59 @@
+:root {
+  --print-page-width: 210mm;
+  --print-page-height: 297mm;
+  --print-page-margin-block: 25.4mm;
+  --print-page-margin-inline: 25.4mm;
+  --print-page-header-offset: 12.7mm;
+  --print-page-footer-offset: 12.7mm;
+}
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+[data-print-page] {
+  position: relative;
+  box-sizing: border-box;
+  width: var(--print-page-width);
+  height: var(--print-page-height);
+  padding: var(--print-page-margin-block) var(--print-page-margin-inline);
+}
+
+[data-print-header] {
+  position: absolute;
+  top: var(--print-page-header-offset);
+  right: var(--print-page-margin-inline);
+  left: var(--print-page-margin-inline);
+}
+
+[data-print-footer] {
+  position: absolute;
+  right: var(--print-page-margin-inline);
+  bottom: var(--print-page-footer-offset);
+  left: var(--print-page-margin-inline);
+}
+
+@media print {
+  body {
+    padding: 0 !important;
+    background: #fff !important;
+  }
+
+  [data-print-hidden] {
+    display: none !important;
+  }
+
+  [data-print-page] {
+    width: var(--print-page-width) !important;
+    height: var(--print-page-height) !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: var(--print-page-margin-block) var(--print-page-margin-inline) !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
