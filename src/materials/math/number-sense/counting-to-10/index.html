@@ -4,15 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>숫자 세기 학습지</title>
+  <link rel="stylesheet" href="../../../../shared/styles/print.css">
+  <script defer src="../../../../shared/utils/print.js"></script>
   <style>
     :root { --ink: #202020; --muted: #666; --line: #aaa; --paper: #fff; }
     * { box-sizing: border-box; }
-    @page { size: A4 portrait; margin: 0; }
     body { margin: 0; color: var(--ink); background: #eceff1; font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif; }
     .toolbar { position: sticky; top: 0; z-index: 10; display: flex; justify-content: center; gap: 8px; padding: 12px; background: rgb(236 239 241 / 92%); backdrop-filter: blur(6px); }
     .toolbar button { border: 1px solid #bbb; border-radius: 999px; padding: 9px 16px; color: #333; background: #fff; font: 700 14px inherit; cursor: pointer; }
     .toolbar button:first-child { color: #fff; border-color: #333; background: #333; }
-    .sheet { position: relative; width: 210mm; min-height: 297mm; margin: 0 auto 24px; padding: 13mm 12mm 10mm; background: var(--paper); box-shadow: 0 6px 24px rgb(0 0 0 / 10%); break-after: page; }
+    .sheet { position: relative; margin: 0 auto 24px; background: var(--paper); box-shadow: 0 6px 24px rgb(0 0 0 / 10%); break-after: page; }
     .sheet:last-child { break-after: auto; }
     .header-row { display: flex; align-items: end; justify-content: space-between; padding: 0 1mm 3.5mm; border-bottom: 0.7mm solid var(--ink); }
     h1 { margin: 0; font-size: 9.5mm; font-weight: 800; line-height: 1; letter-spacing: -0.7mm; }
@@ -30,19 +31,11 @@
     .answer-box { width: 14mm; height: 14mm; border: 0.55mm solid #727272; background: #fff; box-shadow: inset 0 0 0 0.45mm #c1c1c1; }
     .choices { display: grid; grid-template-columns: repeat(5, 1fr); place-items: center; gap: 1.5mm; padding: 1.5mm 8mm; border-top: 0.35mm dashed #c2c2c2; }
     .choice { display: grid; place-items: center; color: #222; font-size: 6mm; font-weight: 700; line-height: 1; }
-    @media print {
-      body { background: #fff; }
-      .toolbar, .export-page { display: none; }
-      .sheet { display: block; width: 210mm; min-height: 297mm; margin: 0; box-shadow: none; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-      body.print-write .sheet[data-mode="choose"], body.print-choose .sheet[data-mode="write"] { display: none; }
-    }
   </style>
 </head>
 <body>
-  <nav class="toolbar" aria-label="인쇄 메뉴">
-    <button type="button" onclick="printSheets('all')">전체 4페이지 인쇄</button>
-    <button type="button" onclick="printSheets('write')">직접 쓰기 2페이지</button>
-    <button type="button" onclick="printSheets('choose')">숫자 고르기 2페이지</button>
+  <nav class="toolbar" aria-label="인쇄 메뉴" data-print-hidden>
+    <button type="button" data-print>전체 4페이지 인쇄</button>
   </nav>
   <main id="worksheets"></main>
   <script src="html2canvas.min.js"></script>
@@ -149,11 +142,13 @@
     function createPage(mode, range) {
       const page = document.createElement("section");
       page.className = "sheet";
+      page.setAttribute("data-print-page", "");
       page.dataset.mode = mode;
       page.dataset.range = range.label;
       const exportButton = document.createElement("button");
       exportButton.type = "button";
       exportButton.className = "export-page";
+      exportButton.setAttribute("data-print-hidden", "");
       exportButton.textContent = "PNG 저장";
       exportButton.addEventListener("click", () => savePageAsPng(page));
       const header = document.createElement("header");
@@ -183,12 +178,6 @@
         for (const range of pageRanges) pages.push(createPage(mode, range));
       }
       container.replaceChildren(...pages);
-    }
-
-    function printSheets(mode) {
-      document.body.classList.remove("print-write", "print-choose");
-      if (mode !== "all") document.body.classList.add(`print-${mode}`);
-      window.print();
     }
 
     async function savePageAsPng(page) {
@@ -232,7 +221,6 @@
       }
     }
 
-    window.addEventListener("afterprint", () => document.body.classList.remove("print-write", "print-choose"));
     renderWorksheets();
   </script>
 </body>

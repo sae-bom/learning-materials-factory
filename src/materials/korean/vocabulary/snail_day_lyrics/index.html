@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>달팽이의 하루 - 낱말 쓰기</title>
+  <link rel="stylesheet" href="../../../../shared/styles/print.css">
+  <script defer src="../../../../shared/utils/print.js"></script>
+  <style>
+    :root {
+      --ink: #24362d;
+      --gray-dark: #424242;
+      --gray: #767676;
+      --gray-light: #eeeeee;
+      --paper: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      background: #e9e9e9;
+      color: var(--ink);
+      font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+      word-break: keep-all;
+    }
+
+    .toolbar {
+      width: 210mm;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 18px;
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid #cfcfcf;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      font-size: 14px;
+    }
+
+    .print-button {
+      flex: 0 0 auto;
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 20px;
+      background: var(--gray-dark);
+      color: #fff;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .print-button:hover {
+      background: #222;
+    }
+
+    .sheet {
+      position: relative;
+      margin: 0 auto;
+      overflow: hidden;
+      background: var(--paper);
+      border: 1px solid #cfcfcf;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+    }
+
+    .top-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .activity-label {
+      margin: 0 0 4px;
+      color: var(--gray);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 30px;
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+    }
+
+    .instruction {
+      margin: 13px 0 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid #bdbdbd;
+      background: var(--gray-light);
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .lyrics {
+      display: grid;
+      gap: 10px;
+    }
+
+    .verse {
+      padding: 11px 15px;
+      border: 1.5px solid #888;
+      border-radius: 14px;
+      background: #fff;
+      break-inside: avoid;
+    }
+
+    .line {
+      margin: 1px 0;
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.6;
+      letter-spacing: -0.02em;
+    }
+
+    .blank {
+      display: inline-block;
+      width: 41mm;
+      height: 1.45em;
+      margin-right: 4px;
+      border-bottom: 2px solid var(--ink);
+      vertical-align: -0.08em;
+    }
+
+    .choices {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: 7px;
+      padding: 7px 10px;
+      border-radius: 9px;
+      border: 1px solid #aaa;
+      background: #f2f2f2;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .choices-label {
+      margin-right: 2px;
+      color: var(--ink);
+      font-weight: 900;
+    }
+
+    .choice {
+      flex: 1;
+      padding: 4px 7px;
+      border: 1px solid #999;
+      border-radius: 7px;
+      background: #fff;
+      text-align: center;
+    }
+
+    .ending {
+      margin: 11px 0 0;
+      padding: 0 15px;
+      color: var(--ink);
+      font-size: 18px;
+      font-weight: 800;
+      text-align: left;
+    }
+
+    @media (max-width: 850px) {
+      body {
+        padding: 12px;
+      }
+
+      .toolbar,
+      .sheet {
+        width: 100%;
+      }
+
+      .sheet {
+        height: auto;
+        min-height: auto;
+        padding: 28px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar" data-print-hidden>
+    <span>인쇄 설정에서 용지 크기를 <strong>A4</strong>, 배율을 <strong>100%</strong>로 선택해 주세요.</span>
+    <button class="print-button" type="button" data-print>인쇄하기</button>
+  </div>
+
+  <main class="sheet" data-print-page>
+    <header class="top-row">
+      <div>
+        <p class="activity-label">낱말을 찾아 써요</p>
+        <h1>달팽이의 하루</h1>
+      </div>
+    </header>
+
+    <p class="instruction">각 보기에서 알맞은 낱말을 찾아 빈칸에 직접 써 보세요.</p>
+
+    <section class="lyrics" aria-label="달팽이의 하루 가사 낱말 쓰기 활동">
+      <article class="verse">
+        <p class="line"><span class="blank" aria-label="첫 번째 빈칸"></span> 비가 와요</p>
+        <p class="line">하늘에서 비가 내려요</p>
+        <p class="line">달팽이는 비 오는 날</p>
+        <p class="line">제일 좋아해</p>
+        <div class="choices">
+          <span class="choices-label">보기</span>
+          <span class="choice">주룩주룩</span>
+          <span class="choice">보슬보슬</span>
+          <span class="choice">펑펑</span>
+        </div>
+      </article>
+
+      <article class="verse">
+        <p class="line">빗방울과 친구 되어</p>
+        <p class="line">풀잎 <span class="blank" aria-label="두 번째 빈칸"></span>을 타 볼까</p>
+        <p class="line">마음은 신나서 달려가는데</p>
+        <p class="line">가도 가도 끝이 없는 길</p>
+        <div class="choices">
+          <span class="choices-label">보기</span>
+          <span class="choice">구름</span>
+          <span class="choice">미끄럼</span>
+          <span class="choice">바람</span>
+        </div>
+      </article>
+
+      <article class="verse">
+        <p class="line">야호 마음은 바쁘지만</p>
+        <p class="line"><span class="blank" aria-label="세 번째 빈칸"></span> 달팽이</p>
+        <p class="line">어느새 비 그치고 해가 반짝</p>
+        <p class="line">아직도 한 뼘을 못 갔구나</p>
+        <div class="choices">
+          <span class="choices-label">보기</span>
+          <span class="choice">성큼성큼</span>
+          <span class="choice">느릿느릿</span>
+          <span class="choice">팔짝팔짝</span>
+        </div>
+      </article>
+    </section>
+
+    <p class="ending">조그만 달팽이의 하루</p>
+  </main>
+</body>
+</html>

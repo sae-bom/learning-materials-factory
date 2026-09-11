@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한글 자음 모음 카드 (인쇄용)</title>
+    <!-- Google Fonts: 나눔고딕 (Nanum Gothic & Early Access) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../../../shared/styles/print.css">
+    <script defer src="../../../../shared/utils/print.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/earlyaccess/nanumgothic.css');
+
+        :root {
+            --print-page-width: 297mm;
+            --print-page-height: 210mm;
+        }
+
+        /* 기본 리셋 및 글로벌 스타일 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Nanum Gothic', 'NanumGothic', sans-serif;
+            background-color: #eef2f5;
+            color: #222;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* 화면용 조작 컨트롤 */
+        .no-print-bar {
+            background: #ffffff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .no-print-bar p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .print-btn {
+            background-color: #0088cc;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            font-family: inherit;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .print-btn:hover {
+            background-color: #006699;
+        }
+
+        /* A4 Landscape 인쇄 설정 */
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+
+        /* 페이지 규격 및 레이아웃 */
+        .page {
+            background: #ffffff;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 14mm;
+            page-break-after: always;
+            break-after: page;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        /* 마지막 페이지 하단 마진 제거 */
+        .page:last-of-type {
+            page-break-after: auto;
+            break-after: auto;
+            margin-bottom: 0;
+        }
+
+        /* 개별 카드 스타일 */
+        .card {
+            border: 3.5px solid #2d3748;
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            position: relative;
+            user-select: none;
+            overflow: hidden;
+        }
+
+        /* 자음/모음 글자 스타일 (대형 폰트 우회 및 렌더링 최적화) */
+        .char {
+            font-size: 8.5rem;
+            font-weight: 700;
+            line-height: 1;
+            paint-order: stroke fill;
+            text-rendering: optimizeLegibility;
+            /* 폰트 상하 정렬 미세 보정 */
+            transform: translateY(-4px);
+        }
+
+        /* 옐로우 잉크가 필요 없는 Cyan & Magenta 컬러 설정 */
+        /* 자음: Cyan 계열 (#0088cc) */
+        .card.consonant .char {
+            color: #0088cc;
+            -webkit-text-stroke: 1px #0088cc;
+        }
+
+        /* 모음: Magenta 계열 (#d81b60) */
+        .card.vowel .char {
+            color: #d81b60;
+            -webkit-text-stroke: 1px #d81b60;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 화면용 툴바 -->
+    <div class="no-print-bar" data-print-hidden>
+        <p>💡 <b>인쇄 팁:</b> 브라우저 인쇄 설정에서 <b>'가로 방향(Landscape)'</b> 및 <b>'여백: 없음(None)'</b>으로 설정해 주세요.</p>
+        <button class="print-btn" type="button" data-print>인쇄하기</button>
+    </div>
+
+    <!-- 1 페이지: 자음 (ㄱ ~ ㅇ) 8개 -->
+    <div class="page" data-print-page>
+        <div class="card consonant"><span class="char">ㄱ</span></div>
+        <div class="card consonant"><span class="char">ㄴ</span></div>
+        <div class="card consonant"><span class="char">ㄷ</span></div>
+        <div class="card consonant"><span class="char">ㄹ</span></div>
+        <div class="card consonant"><span class="char">ㅁ</span></div>
+        <div class="card consonant"><span class="char">ㅂ</span></div>
+        <div class="card consonant"><span class="char">ㅅ</span></div>
+        <div class="card consonant"><span class="char">ㅇ</span></div>
+    </div>
+
+    <!-- 2 페이지: 자음 (ㅈ ~ ㅎ) 6개 + 모음 (ㅏ, ㅑ) 2개 = 8개 -->
+    <div class="page" data-print-page>
+        <div class="card consonant"><span class="char">ㅈ</span></div>
+        <div class="card consonant"><span class="char">ㅊ</span></div>
+        <div class="card consonant"><span class="char">ㅋ</span></div>
+        <div class="card consonant"><span class="char">ㅌ</span></div>
+        <div class="card consonant"><span class="char">ㅍ</span></div>
+        <div class="card consonant"><span class="char">ㅎ</span></div>
+        <div class="card vowel"><span class="char">ㅏ</span></div>
+        <div class="card vowel"><span class="char">ㅑ</span></div>
+    </div>
+
+    <!-- 3 페이지: 모음 (ㅓ ~ ㅣ) 8개 -->
+    <div class="page" data-print-page>
+        <div class="card vowel"><span class="char">ㅓ</span></div>
+        <div class="card vowel"><span class="char">ㅕ</span></div>
+        <div class="card vowel"><span class="char">ㅗ</span></div>
+        <div class="card vowel"><span class="char">ㅛ</span></div>
+        <div class="card vowel"><span class="char">ㅜ</span></div>
+        <div class="card vowel"><span class="char">ㅠ</span></div>
+        <div class="card vowel"><span class="char">ㅡ</span></div>
+        <div class="card vowel"><span class="char">ㅣ</span></div>
+    </div>
+
+</body>
+</html>
