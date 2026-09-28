@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>학습 자료 모음</title>
+    <link rel="stylesheet" href="./shared/styles/fonts.css" />
+    <link rel="stylesheet" href="./shared/styles/colors.css" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        color: var(--ink);
+        background: var(--screen);
+        font-family: var(--font-sans);
+      }
+
+      .page {
+        width: min(1040px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 64px 0 80px;
+      }
+
+      .page-header {
+        margin-bottom: 48px;
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.15;
+        letter-spacing: -0.04em;
+      }
+
+      .intro {
+        margin: 0;
+        color: var(--gray);
+        font-size: 18px;
+        line-height: 1.6;
+      }
+
+      .category + .category {
+        margin-top: 44px;
+      }
+
+      h2 {
+        margin: 0 0 18px;
+        font-size: 22px;
+      }
+
+      .materials {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 16px;
+      }
+
+      .material {
+        display: block;
+        min-height: 150px;
+        padding: 22px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        color: inherit;
+        background: var(--paper);
+        box-shadow: 0 4px 14px rgb(0 0 0 / 6%);
+        text-decoration: none;
+        transition:
+          border-color 0.2s ease,
+          box-shadow 0.2s ease,
+          transform 0.2s ease;
+      }
+
+      .material:hover {
+        border-color: var(--gray);
+        box-shadow: 0 8px 24px rgb(0 0 0 / 10%);
+        transform: translateY(-2px);
+      }
+
+      .material h3 {
+        margin: 0 0 10px;
+        font-size: 20px;
+      }
+
+      .material p {
+        margin: 0;
+        color: var(--gray);
+        line-height: 1.55;
+      }
+
+      @media (max-width: 560px) {
+        .page {
+          width: min(100% - 24px, 1040px);
+          padding-top: 40px;
+        }
+
+        .page-header {
+          margin-bottom: 36px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="page-header">
+        <h1>학습 자료 모음</h1>
+        <p class="intro">필요한 학습지를 선택하고 바로 인쇄해 보세요.</p>
+      </header>
+
+      <section class="category" aria-labelledby="math-title">
+        <h2 id="math-title">수학</h2>
+        <div class="materials">
+          <a
+            class="material"
+            href="./materials/math/number-sense/counting-to-10/"
+          >
+            <h3>숫자 세기</h3>
+            <p>그림의 개수를 세고 숫자를 쓰거나 골라요.</p>
+          </a>
+          <a
+            class="material"
+            href="./materials/math/number-sense/number-bonds-to-10/"
+          >
+            <h3>10 가르기</h3>
+            <p>10을 이루는 두 수를 찾아 빈칸에 써요.</p>
+          </a>
+          <a
+            class="material"
+            href="./materials/math/addition/single-digit-with-regrouping/"
+          >
+            <h3>10을 만들어 더해요</h3>
+            <p>10을 먼저 만든 뒤 남은 수를 더하는 방법을 연습해요.</p>
+          </a>
+        </div>
+      </section>
+
+      <section class="category" aria-labelledby="korean-title">
+        <h2 id="korean-title">국어</h2>
+        <div class="materials">
+          <a
+            class="material"
+            href="./materials/korean/hangul/hangul_cards/"
+          >
+            <h3>한글 자음·모음 카드</h3>
+            <p>자음과 모음을 큰 카드로 인쇄해요.</p>
+          </a>
+          <a
+            class="material"
+            href="./materials/korean/hangul/random_hangul/"
+          >
+            <h3>한글 따라쓰기</h3>
+            <p>큰 글자를 따라 쓰며 한글 모양을 익혀요.</p>
+          </a>
+          <a
+            class="material"
+            href="./materials/korean/vocabulary/snail_day_lyrics/"
+          >
+            <h3>달팽이의 하루</h3>
+            <p>알맞은 낱말을 찾아 노랫말의 빈칸을 채워요.</p>
+          </a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
