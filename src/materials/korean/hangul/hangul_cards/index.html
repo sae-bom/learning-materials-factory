@@ -4,18 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>한글 자음 모음 카드 (인쇄용)</title>
-    <!-- Google Fonts: 나눔고딕 (Nanum Gothic & Early Access) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="../../../../shared/styles/fonts.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/colors.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/toolbar.css" />
     <link rel="stylesheet" href="../../../../shared/styles/print.css" />
     <script defer src="../../../../shared/utils/print.js"></script>
     <style>
-      @import url("https://fonts.googleapis.com/earlyaccess/nanumgothic.css");
-
       :root {
         --print-page-width: 297mm;
         --print-page-height: 210mm;
@@ -29,7 +23,7 @@
       }
 
       body {
-        font-family: "Nanum Gothic", "NanumGothic", sans-serif;
+        font-family: var(--font-sans);
         background-color: #eef2f5;
         color: #222;
         display: flex;
@@ -38,40 +32,6 @@
         padding: 20px 0;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-      }
-
-      /* 화면용 조작 컨트롤 */
-      .no-print-bar {
-        background: #ffffff;
-        padding: 12px 24px;
-        border-radius: 30px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        gap: 16px;
-      }
-
-      .no-print-bar p {
-        font-size: 14px;
-        color: #555;
-      }
-
-      .print-btn {
-        background-color: #0088cc;
-        color: white;
-        border: none;
-        padding: 8px 20px;
-        font-size: 14px;
-        font-weight: bold;
-        font-family: inherit;
-        border-radius: 20px;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-      }
-
-      .print-btn:hover {
-        background-color: #006699;
       }
 
       /* A4 Landscape 인쇄 설정 */
@@ -140,14 +100,15 @@
     </style>
   </head>
   <body>
-    <!-- 화면용 툴바 -->
-    <div class="no-print-bar" data-print-hidden>
-      <p>
-        💡 <b>인쇄 팁:</b> 브라우저 인쇄 설정에서
-        <b>'가로 방향(Landscape)'</b> 및 <b>'여백: 없음(None)'</b>으로 설정해
-        주세요.
-      </p>
-      <button class="print-btn" type="button" data-print>인쇄하기</button>
+    <div class="toolbar-shell" data-print-hidden>
+      <div class="toolbar-card toolbar-card--note">
+        <p class="toolbar-note">
+          💡 <b>인쇄 팁:</b> 브라우저 인쇄 설정에서
+          <b>'가로 방향(Landscape)'</b> 및 <b>'여백: 없음(None)'</b>으로 설정해
+          주세요.
+        </p>
+        <button type="button" data-print>인쇄하기</button>
+      </div>
     </div>
 
     <!-- 1 페이지: 자음 (ㄱ ~ ㅇ) 8개 -->

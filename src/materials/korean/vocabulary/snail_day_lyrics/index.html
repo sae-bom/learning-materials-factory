@@ -4,17 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>달팽이의 하루 - 낱말 쓰기</title>
+    <link rel="stylesheet" href="../../../../shared/styles/fonts.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/colors.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/toolbar.css" />
     <link rel="stylesheet" href="../../../../shared/styles/print.css" />
     <script defer src="../../../../shared/utils/print.js"></script>
     <style>
-      :root {
-        --ink: #24362d;
-        --gray-dark: #424242;
-        --gray: #767676;
-        --gray-light: #eeeeee;
-        --paper: #ffffff;
-      }
-
       * {
         box-sizing: border-box;
       }
@@ -24,39 +19,8 @@
         padding: 24px;
         background: #e9e9e9;
         color: var(--ink);
-        font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+        font-family: var(--font-sans);
         word-break: keep-all;
-      }
-
-      .toolbar {
-        width: 210mm;
-        margin: 0 auto 16px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        padding: 12px 18px;
-        border-radius: 14px;
-        background: #fff;
-        border: 1px solid #cfcfcf;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-        font-size: 14px;
-      }
-
-      .print-button {
-        flex: 0 0 auto;
-        border: 0;
-        border-radius: 999px;
-        padding: 10px 20px;
-        background: var(--gray-dark);
-        color: #fff;
-        font: inherit;
-        font-weight: 700;
-        cursor: pointer;
-      }
-
-      .print-button:hover {
-        background: #222;
       }
 
       .sheet {
@@ -176,7 +140,6 @@
           padding: 12px;
         }
 
-        .toolbar,
         .sheet {
           width: 100%;
         }
@@ -190,12 +153,10 @@
     </style>
   </head>
   <body>
-    <div class="toolbar" data-print-hidden>
-      <span
-        >인쇄 설정에서 용지 크기를 <strong>A4</strong>, 배율을
-        <strong>100%</strong>로 선택해 주세요.</span
-      >
-      <button class="print-button" type="button" data-print>인쇄하기</button>
+    <div class="toolbar-shell" data-print-hidden>
+      <div class="toolbar-card toolbar-card--center">
+        <button type="button" data-print>인쇄하기</button>
+      </div>
     </div>
 
     <main class="sheet" data-print-page>

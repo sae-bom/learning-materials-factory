@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>10 가르기 문제지</title>
+    <link rel="stylesheet" href="../../../../shared/styles/fonts.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/colors.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/toolbar.css" />
     <link rel="stylesheet" href="../../../../shared/styles/print.css" />
     <script defer src="../../../../shared/utils/print.js"></script>
     <style>
       :root {
-        --ink: #171717;
-        --paper: #fff;
-        --screen: #eceff1;
         --box-size: 20mm;
         --line-width: 0.75mm;
       }
@@ -23,35 +23,7 @@
         margin: 0;
         color: var(--ink);
         background: var(--screen);
-        font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
-      }
-
-      .toolbar {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        padding: 12px;
-        background: rgb(236 239 241 / 92%);
-        backdrop-filter: blur(6px);
-      }
-
-      button {
-        border: 1px solid #aaa;
-        border-radius: 999px;
-        padding: 9px 17px;
-        color: #222;
-        background: #fff;
-        font: 700 14px inherit;
-        cursor: pointer;
-      }
-
-      button:first-child {
-        color: #fff;
-        border-color: #222;
-        background: #222;
+        font-family: var(--font-sans);
       }
 
       .sheet {
@@ -160,10 +132,14 @@
     </style>
   </head>
   <body>
-    <nav class="toolbar" aria-label="문제지 메뉴" data-print-hidden>
-      <button type="button" data-print>인쇄하기</button>
-      <button type="button" id="shuffleButton">문제 다시 섞기</button>
-      <button type="button" id="exportButton">PNG 저장</button>
+    <nav class="toolbar-shell" aria-label="문제지 메뉴" data-print-hidden>
+      <div class="toolbar-card toolbar-card--center">
+        <button class="primary" type="button" id="shuffleButton">
+          문제 다시 섞기
+        </button>
+        <button type="button" id="exportButton">PNG 저장</button>
+        <button type="button" data-print>인쇄하기</button>
+      </div>
     </nav>
 
     <main class="sheet" data-print-page>
@@ -184,11 +160,11 @@
     <template id="problemTemplate">
       <article class="problem">
         <div class="bond">
-          <span class="box whole">10</span>
+          <span class="box whole number-text">10</span>
           <span class="branch branch-left" aria-hidden="true"></span>
           <span class="branch branch-right" aria-hidden="true"></span>
-          <span class="box part-left"></span>
-          <span class="box part-right"></span>
+          <span class="box part-left number-text"></span>
+          <span class="box part-right number-text"></span>
         </div>
       </article>
     </template>
