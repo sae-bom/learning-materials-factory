@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>시계 보기 학습지</title>
+  <link rel="stylesheet" href="../../../../shared/styles/print.css">
+  <style>
+    :root { --ink:#202020; --muted:#666; --line:#aaa; --print-page-margin-block:14mm; --print-page-margin-inline:16mm; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:#eceff1; font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif; }
+    .toolbar { position:sticky; top:0; z-index:10; display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:8px; padding:12px; background:rgb(236 239 241 / 94%); backdrop-filter:blur(6px); }
+    .toolbar label, .toolbar button { border:1px solid #bbb; border-radius:999px; padding:9px 14px; color:#333; background:#fff; font:700 14px inherit; }
+    .toolbar select { margin-left:6px; border:0; color:#333; background:transparent; font:700 14px inherit; }
+    .toolbar button { color:#fff; border-color:#333; background:#333; cursor:pointer; }
+    .sheet { position:relative; display:flex; flex-direction:column; width:var(--print-page-width); height:var(--print-page-height); margin:0 auto 24px; padding:var(--print-page-margin-block) var(--print-page-margin-inline); background:#fff; box-shadow:0 6px 24px rgb(0 0 0 / 10%); break-after:page; }
+    h1 { margin:0; font-size:9mm; line-height:1; letter-spacing:-.5mm; }
+    .header { display:flex; justify-content:space-between; align-items:end; padding-bottom:4mm; border-bottom:.7mm solid var(--ink); }
+    .sub { color:var(--muted); font-size:3.7mm; font-weight:700; }
+    .instruction { margin:4mm 0 5mm; color:var(--muted); font-size:4mm; }
+    .questions { display:grid; flex:1; grid-template-columns:repeat(2,1fr); grid-template-rows:repeat(4,1fr); gap:5mm 8mm; min-height:0; }
+    .question { display:grid; grid-template-columns:1fr 35mm; align-items:center; min-height:0; border:.45mm solid var(--line); border-radius:3mm; }
+    .clock-wrap { display:grid; place-items:center; min-width:0; padding:3mm; }
+    .clock { width:50mm; height:50mm; max-width:100%; }
+    .clock .hint { display:none; }
+    .show-hints .clock .hint { display:block; }
+    .color-mode .clock .hour { stroke:#2563a6; }
+    .color-mode .clock .minute { stroke:#d94b45; }
+    .answer { align-self:stretch; display:flex; flex-direction:column; justify-content:center; gap:5mm; padding:3mm; border-left:.35mm dashed #c2c2c2; text-align:center; font-size:4mm; font-weight:700; }
+    .export { position:absolute; top:5mm; right:12mm; transform:translateY(-100%); border:1px solid #bbb; border-radius:999px; padding:6px 12px; background:#fff; cursor:pointer; }
+    @media (max-width:210mm) { .sheet { width:100%; } }
+  </style>
+</head>
+<body>
+  <nav class="toolbar" data-print-hidden aria-label="학습지 설정">
+    <label>난이도 <select id="difficulty"><option value="hour">0분만</option><option value="half">0분과 30분</option><option value="five" selected>5분 단위</option><option value="any">제한 없음</option></select></label>
+    <label><input id="minuteHints" type="checkbox"> 분 읽기 숫자 표시</label>
+    <label><input id="colorMode" type="checkbox"> 컬러 모드</label>
+    <button id="newSheet" type="button">새 문제 만들기</button>
+    <button id="print" type="button">인쇄하기</button>
+  </nav>
+  <main id="worksheets"></main>
+  <script>
+    const TAU = Math.PI * 2;
+    const difficulty = document.querySelector("#difficulty");
+    const minuteHints = document.querySelector("#minuteHints");
+    const colorMode = document.querySelector("#colorMode");
+    function randomInt(max) { return Math.floor(Math.random() * max); }
+    function makeTime(mode) {
+      const minute = mode === "hour" ? 0 : mode === "half" ? (randomInt(2) * 30) : mode === "five" ? randomInt(12) * 5 : randomInt(60);
+      return { hour: randomInt(12) || 12, minute };
+    }
+    function polar(cx, cy, radius, angle) { return `${cx + Math.sin(angle) * radius},${cy - Math.cos(angle) * radius}`; }
+    function clockSvg({ hour, minute }, showMinuteTicks) {
+      const hourAngle = (hour % 12 + minute / 60) * TAU / 12;
+      const minuteAngle = minute * TAU / 60;
+      const ticks = showMinuteTicks ? Array.from({ length:60 }, (_, i) => { const a=i*TAU/60; const r1=i%5===0?36:39; return `<line x1="${polar(50,50,r1,a).split(',')[0]}" y1="${polar(50,50,r1,a).split(',')[1]}" x2="${polar(50,50,42,a).split(',')[0]}" y2="${polar(50,50,42,a).split(',')[1]}"/>`; }).join("") : "";
+      const numbers = Array.from({ length:12 }, (_, i) => { const n=i+1, a=n*TAU/12; return `<text x="${polar(50,50,32,a).split(',')[0]}" y="${polar(50,50,32,a).split(',')[1]}" text-anchor="middle" dominant-baseline="middle">${n}</text><text class="hint" x="${polar(50,50,47,a).split(',')[0]}" y="${polar(50,50,47,a).split(',')[1]}" text-anchor="middle" dominant-baseline="middle">${n*5%60}</text>`; }).join("");
+      return `<svg class="clock" viewBox="0 0 100 100" role="img" aria-label="아날로그 시계"><style>line{stroke:#555;stroke-width:1}text{font:700 8px Arial;fill:#202020}.hint{font-size:4.5px;fill:#777;font-weight:400}.face{fill:#fff;stroke:#202020;stroke-width:1.5}.hand{stroke:#202020;stroke-linecap:round}.hour{stroke-width:3}.minute{stroke-width:1.8}</style><circle class="face" cx="50" cy="50" r="43"/>${ticks}${numbers}<line class="hand hour" x1="50" y1="50" x2="${polar(50,50,23,hourAngle).split(',')[0]}" y2="${polar(50,50,23,hourAngle).split(',')[1]}"/><line class="hand minute" x1="50" y1="50" x2="${polar(50,50,34,minuteAngle).split(',')[0]}" y2="${polar(50,50,34,minuteAngle).split(',')[1]}"/><circle cx="50" cy="50" r="2.2" fill="#202020"/></svg>`;
+    }
+    function render() { const mode=difficulty.value; const cards=Array.from({length:8},()=>{const time=makeTime(mode); return `<article class="question"><div class="clock-wrap">${clockSvg(time, mode === "any")}</div><div class="answer"><span>_____시 _____분</span></div></article>`;}).join(""); document.querySelector("#worksheets").innerHTML=`<section class="sheet${minuteHints.checked ? " show-hints" : ""}${colorMode.checked ? " color-mode" : ""}" data-print-page><button class="export" data-print-hidden type="button" onclick="window.print()">인쇄하기</button><header class="header"><h1>시계 보기</h1><span class="sub">시계를 보고 시간을 써 보세요</span></header><p class="instruction">긴 바늘과 짧은 바늘을 살펴보고, 몇 시 몇 분인지 써 보세요.</p><div class="questions">${cards}</div></section>`; }
+    function toggleMinuteHints() { document.querySelector(".sheet")?.classList.toggle("show-hints", minuteHints.checked); }
+    function toggleColorMode() { document.querySelector(".sheet")?.classList.toggle("color-mode", colorMode.checked); }
+    difficulty.addEventListener("change", render); minuteHints.addEventListener("change", toggleMinuteHints); colorMode.addEventListener("change", toggleColorMode); document.querySelector("#newSheet").addEventListener("click", render); document.querySelector("#print").addEventListener("click",()=>window.print()); render();
+  </script>
+</body>
+</html>
