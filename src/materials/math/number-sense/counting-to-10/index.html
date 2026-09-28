@@ -4,15 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>숫자 세기 학습지</title>
+    <link rel="stylesheet" href="../../../../shared/styles/fonts.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/colors.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/toolbar.css" />
     <link rel="stylesheet" href="../../../../shared/styles/print.css" />
     <script defer src="../../../../shared/utils/print.js"></script>
     <style>
-      :root {
-        --ink: #202020;
-        --muted: #666;
-        --line: #aaa;
-        --paper: #fff;
-      }
       * {
         box-sizing: border-box;
       }
@@ -20,32 +17,7 @@
         margin: 0;
         color: var(--ink);
         background: #eceff1;
-        font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
-      }
-      .toolbar {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-        padding: 12px;
-        background: rgb(236 239 241 / 92%);
-        backdrop-filter: blur(6px);
-      }
-      .toolbar button {
-        border: 1px solid #bbb;
-        border-radius: 999px;
-        padding: 9px 16px;
-        color: #333;
-        background: #fff;
-        font: 700 14px inherit;
-        cursor: pointer;
-      }
-      .toolbar button:first-child {
-        color: #fff;
-        border-color: #333;
-        background: #333;
+        font-family: var(--font-sans);
       }
       .sheet {
         position: relative;
@@ -72,7 +44,7 @@
         letter-spacing: -0.7mm;
       }
       .page-label {
-        color: var(--muted);
+        color: var(--gray);
         font-size: 3.7mm;
         font-weight: 700;
         letter-spacing: 0.2mm;
@@ -92,7 +64,7 @@
       }
       .instruction {
         margin: 3.5mm 1mm 4.5mm;
-        color: var(--muted);
+        color: var(--gray);
         font-size: 4mm;
         line-height: 1.5;
       }
@@ -176,8 +148,10 @@
     </style>
   </head>
   <body>
-    <nav class="toolbar" aria-label="인쇄 메뉴" data-print-hidden>
-      <button type="button" data-print>전체 4페이지 인쇄</button>
+    <nav class="toolbar-shell" aria-label="인쇄 메뉴" data-print-hidden>
+      <div class="toolbar-card toolbar-card--center">
+        <button type="button" data-print>전체 4페이지 인쇄</button>
+      </div>
     </nav>
     <main id="worksheets"></main>
     <script src="html2canvas.min.js"></script>
@@ -291,7 +265,7 @@
           choices.className = "choices";
           for (let number = range.min; number <= range.max; number += 1) {
             const choice = document.createElement("span");
-            choice.className = "choice";
+            choice.className = "choice number-text";
             choice.textContent = number;
             choices.append(choice);
           }

@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Nanum+Myeongjo:wght@400;700&display=swap");
+
+:root {
+  --font-sans:
+    "Nanum Gothic", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR",
+    "Noto Sans CJK KR", sans-serif;
+  --font-number:
+    "Nanum Myeongjo", Batang, "바탕", AppleMyungjo, Georgia,
+    "Times New Roman", serif;
+}
+
+.number-text {
+  font-family: var(--font-number);
+  font-variant-numeric: tabular-nums;
+}

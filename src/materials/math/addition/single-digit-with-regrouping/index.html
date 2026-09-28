@@ -4,16 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>10을 만들어 더해요</title>
+    <link rel="stylesheet" href="../../../../shared/styles/fonts.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/colors.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/toolbar.css" />
     <link rel="stylesheet" href="../../../../shared/styles/print.css" />
     <script defer src="../../../../shared/utils/print.js"></script>
     <style>
-      :root {
-        --ink: #1d1d1b;
-        --line: #686868;
-        --soft: #f2f2f2;
-        --accent: #555;
-      }
-
       * {
         box-sizing: border-box;
       }
@@ -22,49 +18,7 @@
         margin: 0;
         color: var(--ink);
         background: #dedede;
-        font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
-      }
-
-      .toolbar {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px 16px;
-        align-items: end;
-        padding: 12px 18px;
-        background: #fff;
-        border-bottom: 1px solid #bbb;
-        box-shadow: 0 2px 8px #0002;
-        font-size: 14px;
-      }
-
-      .toolbar label {
-        display: grid;
-        gap: 4px;
-      }
-      .toolbar input,
-      .toolbar select,
-      .toolbar button {
-        height: 34px;
-        padding: 0 10px;
-        border: 1px solid #999;
-        border-radius: 5px;
-        background: #fff;
-        font: inherit;
-      }
-      .toolbar input[type="text"] {
-        width: 270px;
-      }
-      .toolbar button {
-        cursor: pointer;
-        font-weight: 700;
-      }
-      .toolbar button.primary {
-        color: #fff;
-        background: #333;
-        border-color: #333;
+        font-family: var(--font-sans);
       }
 
       .sheet {
@@ -100,7 +54,7 @@
         flex: none;
         padding: 3px 8px;
         border-radius: 999px;
-        background: var(--soft);
+        background: var(--gray-light);
         font-size: 12px;
       }
 
@@ -127,7 +81,6 @@
         justify-content: center;
         border: 1.5px solid var(--line);
         background: #fff;
-        font-family: Georgia, "Times New Roman", serif;
         font-size: 25px;
       }
       .index {
@@ -136,7 +89,6 @@
       }
       .sign {
         text-align: center;
-        font-family: Georgia, serif;
         font-size: 23px;
       }
       .work {
@@ -196,38 +148,44 @@
         .sheet {
           transform-origin: top left;
         }
-        .toolbar input[type="text"] {
-          width: 210px;
-        }
       }
     </style>
   </head>
   <body>
-    <section class="toolbar" aria-label="학습지 설정" data-print-hidden>
-      <label
-        >문제 수
-        <select id="problemCount">
-          <option>6</option>
-          <option selected>8</option>
-          <option>9</option>
-        </select>
-      </label>
-      <label
-        >문제 직접 입력 (예: 8+5, 9+7)
-        <input id="customProblems" type="text" placeholder="비우면 자동 생성" />
-      </label>
-      <label
-        >표시 방식
-        <select id="displayMode">
-          <option value="practice">연습용 (모두 빈칸)</option>
-          <option value="example">첫 문제만 예시</option>
-          <option value="answer">정답지</option>
-        </select>
-      </label>
-      <button id="generateButton" class="primary" type="button">
-        새 학습지 만들기
-      </button>
-      <button id="printButton" type="button" data-print>인쇄 / PDF 저장</button>
+    <section class="toolbar-shell" aria-label="학습지 설정" data-print-hidden>
+      <div class="toolbar-card">
+        <label
+          >문제 수
+          <select id="problemCount">
+            <option>6</option>
+            <option selected>8</option>
+            <option>9</option>
+          </select>
+        </label>
+        <label
+          >문제 직접 입력 (예: 8+5, 9+7)
+          <input
+            id="customProblems"
+            class="toolbar-input-wide"
+            type="text"
+            placeholder="비우면 자동 생성"
+          />
+        </label>
+        <label
+          >표시 방식
+          <select id="displayMode">
+            <option value="practice">연습용 (모두 빈칸)</option>
+            <option value="example">첫 문제만 예시</option>
+            <option value="answer">정답지</option>
+          </select>
+        </label>
+        <button id="generateButton" class="primary" type="button">
+          새 학습지 만들기
+        </button>
+        <button id="printButton" type="button" data-print>
+          인쇄 / PDF 저장
+        </button>
+      </div>
     </section>
 
     <main class="sheet" data-print-page>
@@ -295,15 +253,15 @@
         return `
         <article class="problem">
           <div class="index">${index + 1}.</div>
-          <div class="number">${first}</div>
-          <div class="sign">+</div>
-          <div class="number">${second}</div>
-          <div class="sign">=</div>
-          <div class="work"><span>${first}</span><span>+</span><span class="fill">${value(toTen)}</span></div>
-          <div class="sign">+</div>
-          <div class="remainder">${value(remainder)}</div>
-          <div class="sign">=</div>
-          <div class="answer">${value(answer)}</div>
+          <div class="number number-text">${first}</div>
+          <div class="sign number-text">+</div>
+          <div class="number number-text">${second}</div>
+          <div class="sign number-text">=</div>
+          <div class="work number-text"><span>${first}</span><span>+</span><span class="fill">${value(toTen)}</span></div>
+          <div class="sign number-text">+</div>
+          <div class="remainder number-text">${value(remainder)}</div>
+          <div class="sign number-text">=</div>
+          <div class="answer number-text">${value(answer)}</div>
           <div class="hint make-ten">① 10 만들기</div>
           <div class="hint left-over">② 남은 수</div>
           <div class="hint final-hint">③ 답</div>
