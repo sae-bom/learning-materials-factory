@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>한글 따라쓰기</title>
+    <link rel="stylesheet" href="../../../../shared/styles/fonts.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/colors.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/toolbar.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/print.css" />
+    <script defer src="../../../../shared/utils/print.js"></script>
+
+    <style>
+      @page {
+        size: A4 landscape;
+        margin: 20mm;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        font-family: var(--font-sans);
+      }
+
+      .worksheet {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+      }
+
+      .line {
+        position: relative;
+        font-size: 150px;
+        font-weight: 500;
+        letter-spacing: 18px;
+        line-height: 1.2;
+        color: white;
+        paint-order: stroke fill;
+        -webkit-text-stroke: 4px white;
+      }
+
+      .line::before {
+        content: attr(data-text);
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: white;
+        -webkit-text-stroke: 12px #111;
+        paint-order: stroke fill;
+        z-index: -1;
+      }
+
+      @media print {
+        body {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="toolbar-shell" aria-label="인쇄 메뉴" data-print-hidden>
+      <div class="toolbar-card toolbar-card--center">
+        <button type="button" data-print>인쇄하기</button>
+      </div>
+    </nav>
+
+    <main class="worksheet">
+      <div class="line" data-text="ㅏㅓㅗㅜㅣ">ㅏㅓㅗㅜㅣ</div>
+      <div class="line" data-text="ㅗㅣㅏㅓㅜ">ㅗㅣㅏㅓㅜ</div>
+      <div class="line" data-text="ㅜㅏㅣㅗㅓ">ㅜㅏㅣㅗㅓ</div>
+    </main>
+  </body>
+</html>
