@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../../../shared/styles/colors.css" />
     <link rel="stylesheet" href="../../../../shared/styles/toolbar.css" />
     <link rel="stylesheet" href="../../../../shared/styles/print.css" />
+    <script defer src="../../../../shared/utils/png-export.js"></script>
     <style>
       :root {
         --print-page-margin-block: 14mm;
@@ -165,9 +166,10 @@
           컬러 모드
         </label>
         <button class="primary" id="newSheet" type="button">
-          새 문제 만들기
+          새 학습지 만들기
         </button>
-        <button id="print" type="button" data-print>인쇄하기</button>
+        <button type="button" data-png-export>PNG 저장</button>
+        <button id="print" type="button" data-print>인쇄 / PDF 저장</button>
       </div>
     </nav>
     <main id="worksheets"></main>
@@ -229,7 +231,7 @@
           return `<article class="question"><div class="clock-wrap">${clockSvg(time, mode === "any")}</div><div class="answer"><span>____시 ____분</span></div></article>`;
         }).join("");
         document.querySelector("#worksheets").innerHTML =
-          `<section class="sheet${minuteHints.checked ? " show-hints" : ""}${colorMode.checked ? " color-mode" : ""}" data-print-page><header class="header"><h1>시계 보기</h1><span class="sub">시계를 보고 시간을 써 보세요</span></header><p class="instruction">긴 바늘과 짧은 바늘을 살펴보고, 몇 시 몇 분인지 써 보세요.</p><div class="questions">${cards}</div></section>`;
+          `<section class="sheet${minuteHints.checked ? " show-hints" : ""}${colorMode.checked ? " color-mode" : ""}" data-print-page data-png-filename="시계보기_학습지"><header class="header"><h1>시계 보기</h1><span class="sub">시계를 보고 시간을 써 보세요</span></header><p class="instruction">긴 바늘과 짧은 바늘을 살펴보고, 몇 시 몇 분인지 써 보세요.</p><div class="questions">${cards}</div></section>`;
       }
 
       function toggleMinuteHints() {
