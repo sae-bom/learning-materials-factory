@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../../../shared/styles/toolbar.css" />
     <link rel="stylesheet" href="../../../../shared/styles/print.css" />
     <script defer src="../../../../shared/utils/print.js"></script>
+    <script defer src="../../../../shared/utils/png-export.js"></script>
     <style>
       * {
         box-sizing: border-box;
@@ -17,7 +18,7 @@
       body {
         margin: 0;
         color: var(--ink);
-        background: #dedede;
+        background: var(--screen);
         font-family: var(--font-sans);
       }
 
@@ -182,13 +183,14 @@
         <button id="generateButton" class="primary" type="button">
           새 학습지 만들기
         </button>
+        <button type="button" data-png-export>PNG 저장</button>
         <button id="printButton" type="button" data-print>
           인쇄 / PDF 저장
         </button>
       </div>
     </section>
 
-    <main class="sheet" data-print-page>
+    <main class="sheet" data-print-page data-png-filename="10을_만들어_더해요">
       <header>
         <h1>10을 만들어 더해요</h1>
       </header>
