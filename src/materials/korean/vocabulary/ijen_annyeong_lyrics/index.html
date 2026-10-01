@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>이젠 안녕 - 낱말 쓰기</title>
+    <link rel="stylesheet" href="../../../../shared/styles/fonts.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/colors.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/toolbar.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/print.css" />
+    <script defer src="../../../../shared/utils/print.js"></script>
+    <script defer src="../../../../shared/utils/png-export.js"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 24px;
+        color: var(--ink);
+        background: var(--screen);
+        font-family: var(--font-sans);
+        word-break: keep-all;
+      }
+
+      .sheet {
+        position: relative;
+        margin: 0 auto;
+        overflow: hidden;
+        border: 1px solid #cfcfcf;
+        background: var(--paper);
+        box-shadow: 0 8px 28px rgb(0 0 0 / 12%);
+      }
+
+      .top-row {
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-start;
+        padding-bottom: 8px;
+        border-bottom: 2px solid var(--ink);
+      }
+
+      .activity-label {
+        margin: 0 0 4px;
+        color: var(--gray);
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+      }
+
+      h1 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 30px;
+        line-height: 1.15;
+        letter-spacing: -0.04em;
+      }
+
+      .instruction {
+        margin: 13px 0 12px;
+        padding: 10px 14px;
+        border: 1px solid #bdbdbd;
+        border-radius: 10px;
+        background: var(--gray-light);
+        font-size: 15px;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .lyrics {
+        display: grid;
+        gap: 10px;
+      }
+
+      .verse {
+        padding: 11px 15px;
+        border: 1.5px solid #888;
+        border-radius: 14px;
+        background: #fff;
+        break-inside: avoid;
+      }
+
+      .line {
+        margin: 1px 0;
+        font-size: 17px;
+        font-weight: 600;
+        line-height: 1.6;
+        letter-spacing: -0.02em;
+      }
+
+      .blank {
+        display: inline-block;
+        width: 41mm;
+        height: 1.45em;
+        margin-right: 4px;
+        border-bottom: 2px solid var(--ink);
+        vertical-align: -0.08em;
+      }
+
+      .choices {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin-top: 7px;
+        padding: 7px 10px;
+        border: 1px solid #aaa;
+        border-radius: 9px;
+        color: var(--ink);
+        background: #f2f2f2;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .choices-label {
+        margin-right: 2px;
+        color: var(--ink);
+        font-weight: 900;
+      }
+
+      .choice {
+        flex: 1;
+        padding: 4px 7px;
+        border: 1px solid #999;
+        border-radius: 7px;
+        background: #fff;
+        text-align: center;
+      }
+
+      @media (max-width: 850px) {
+        body {
+          padding: 12px;
+        }
+
+        .sheet {
+          width: 100%;
+          height: auto;
+          min-height: auto;
+          padding: 28px 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="toolbar-shell" data-print-hidden>
+      <div class="toolbar-card toolbar-card--center">
+        <button type="button" data-png-export>PNG 저장</button>
+        <button type="button" data-print>인쇄 / PDF 저장</button>
+      </div>
+    </div>
+
+    <main
+      class="sheet"
+      data-print-page
+      data-png-filename="이젠_안녕_낱말쓰기"
+    >
+      <header class="top-row">
+        <div>
+          <p class="activity-label">낱말을 찾아 써요</p>
+          <h1>이젠 안녕</h1>
+        </div>
+      </header>
+
+      <p class="instruction">
+        각 보기에서 알맞은 낱말을 찾아 빈칸에 직접 써 보세요.
+      </p>
+
+      <section class="lyrics" aria-label="이젠 안녕 가사 낱말 쓰기 활동">
+        <article class="verse">
+          <p class="line">
+            이제는 우리가 서로 떠나가야 할
+            <span class="blank" aria-label="첫 번째 빈칸"></span>
+          </p>
+          <p class="line">아쉬움을 남긴 채 돌아서지만</p>
+          <p class="line">시간은 우리를 다시 만나게 해 주겠지</p>
+          <p class="line">우리 그때까지 아쉽지만 기다려 봐요</p>
+          <div class="choices">
+            <span class="choices-label">보기</span>
+            <span class="choice">시간</span>
+            <span class="choice">약속</span>
+            <span class="choice">추억</span>
+          </div>
+        </article>
+
+        <article class="verse">
+          <p class="line">어느 차가웁던 겨울날 작은 방에 모여</p>
+          <p class="line">부르던 그 노랜 이젠</p>
+          <p class="line">
+            기억 속에 묻혀진 작은
+            <span class="blank" aria-label="두 번째 빈칸"></span>됐지만
+          </p>
+          <p class="line">우리들 맘엔 영원히</p>
+          <div class="choices">
+            <span class="choices-label">보기</span>
+            <span class="choice">노래</span>
+            <span class="choice">겨울</span>
+            <span class="choice">이별</span>
+          </div>
+        </article>
+
+        <article class="verse">
+          <p class="line">안녕은 영원한 헤어짐은 아니겠지요</p>
+          <p class="line">
+            다시 만나기 위한
+            <span class="blank" aria-label="세 번째 빈칸"></span>일 거야
+          </p>
+          <p class="line">함께했던 시간은 이젠 추억으로 남기고</p>
+          <p class="line">서로 가야 할 길 찾아서 떠나야 해요</p>
+          <div class="choices">
+            <span class="choices-label">보기</span>
+            <span class="choice">약속</span>
+            <span class="choice">헤어짐</span>
+            <span class="choice">기억</span>
+          </div>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
