@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>받침 없는 글자 따라 쓰기</title>
+    <link rel="stylesheet" href="../../../../shared/styles/fonts.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/colors.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/toolbar.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/print.css" />
+    <script defer src="../../../../shared/utils/print.js"></script>
+    <style>
+      :root {
+        --print-page-margin-block: 14mm;
+        --print-page-margin-inline: 16mm;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 16px 0;
+        color: var(--ink);
+        background: var(--screen);
+        font-family: var(--font-sans);
+      }
+
+      .toolbar-card {
+        align-items: end;
+      }
+
+      .input-field {
+        flex: 1 1 230px;
+      }
+
+      .input-field input {
+        width: 100%;
+      }
+
+      .toolbar-help {
+        flex: 1 1 100%;
+        margin: 0;
+        color: var(--gray);
+        line-height: 1.5;
+      }
+
+      [data-print-page] {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10mm;
+        margin: 16px auto;
+        background: #fff;
+        box-shadow: 0 4px 18px rgb(0 0 0 / 10%);
+      }
+
+      .worksheet-title {
+        margin: 0;
+        text-align: center;
+        font-size: 22pt;
+        font-weight: 700;
+      }
+
+      .instruction {
+        margin: 0;
+        font-size: 13pt;
+      }
+
+      .rows {
+        display: grid;
+        flex: 1;
+        grid-template-rows: repeat(5, minmax(0, 1fr));
+      }
+
+      .worksheet-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 54mm;
+        align-items: center;
+        gap: 8mm;
+        min-height: 0;
+      }
+
+      .equation {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8mm;
+        white-space: nowrap;
+        font-size: 34pt;
+        font-weight: 700;
+      }
+
+      .component,
+      .practice-character {
+        color: #aaa;
+      }
+
+      .component {
+        font-size: 72pt;
+        font-weight: 700;
+      }
+
+      .operator {
+        color: #111;
+      }
+
+      .operator--plus {
+        margin-inline: 4mm;
+      }
+
+      .practice-cell {
+        display: grid;
+        flex: 0 0 42mm;
+        width: 42mm;
+        height: 42mm;
+        place-items: center;
+        border: 1.2pt solid #111;
+      }
+
+      .practice-character {
+        font-size: 72pt;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      .practice-area {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 2mm;
+      }
+
+      .row-option {
+        display: flex;
+        align-items: center;
+        gap: 1mm;
+        white-space: nowrap;
+        font-size: 9pt;
+      }
+
+      .row-option input {
+        width: 13px;
+        height: 13px;
+        margin: 0;
+        accent-color: var(--ink);
+      }
+
+      .empty-state {
+        margin: auto;
+        color: var(--gray);
+        text-align: center;
+      }
+
+    </style>
+  </head>
+  <body>
+    <nav class="toolbar-shell" aria-label="학습지 설정" data-print-hidden>
+      <div class="toolbar-card">
+        <label class="input-field">
+          글자 입력
+          <input
+            id="character-input"
+            class="toolbar-input-wide"
+            type="text"
+            autocomplete="off"
+            placeholder="예: 어디 여우"
+          />
+        </label>
+        <button type="button" data-print>인쇄 / PDF 저장</button>
+        <p class="toolbar-help">
+          받침 없는 한글만 표시됩니다. 받침 있는 글자, 낱자, 영문·숫자 및
+          기타 문자는 제외되며, 입력 순서대로 처음 5개만 사용됩니다.
+        </p>
+      </div>
+    </nav>
+
+    <main class="worksheet" data-print-page>
+      <h1 class="worksheet-title">글자 따라 쓰기</h1>
+      <p class="instruction">자음과 모음을 보고 글자를 써 보아요.</p>
+      <section id="rows" class="rows" aria-live="polite"></section>
+      <p id="empty-state" class="empty-state" data-print-hidden>
+        글자를 입력해 주세요.
+      </p>
+    </main>
+
+    <template id="row-template">
+      <div class="worksheet-row">
+        <div class="equation" aria-label="자음 더하기 모음">
+          <span class="component consonant"></span>
+          <span class="operator operator--plus" aria-hidden="true">+</span>
+          <span class="component vowel"></span>
+          <span class="operator" aria-hidden="true">→</span>
+        </div>
+        <div class="practice-area">
+          <div class="practice-cell"></div>
+          <label class="row-option" data-print-hidden>
+            <input type="checkbox" aria-label="빈 칸으로 표시" />
+            <span>빈 칸</span>
+          </label>
+        </div>
+      </div>
+    </template>
+
+    <script>
+      const input = document.querySelector("#character-input");
+      const rows = document.querySelector("#rows");
+      const emptyState = document.querySelector("#empty-state");
+      const rowTemplate = document.querySelector("#row-template");
+      const syllableBase = 0xac00;
+      const initialConsonants = [
+        "ㄱ",
+        "ㄲ",
+        "ㄴ",
+        "ㄷ",
+        "ㄸ",
+        "ㄹ",
+        "ㅁ",
+        "ㅂ",
+        "ㅃ",
+        "ㅅ",
+        "ㅆ",
+        "ㅇ",
+        "ㅈ",
+        "ㅉ",
+        "ㅊ",
+        "ㅋ",
+        "ㅌ",
+        "ㅍ",
+        "ㅎ",
+      ];
+      const medialVowels = [
+        "ㅏ",
+        "ㅐ",
+        "ㅑ",
+        "ㅒ",
+        "ㅓ",
+        "ㅔ",
+        "ㅕ",
+        "ㅖ",
+        "ㅗ",
+        "ㅘ",
+        "ㅙ",
+        "ㅚ",
+        "ㅛ",
+        "ㅜ",
+        "ㅝ",
+        "ㅞ",
+        "ㅟ",
+        "ㅠ",
+        "ㅡ",
+        "ㅢ",
+        "ㅣ",
+      ];
+
+      function getComponents(character) {
+        const codePoint = character.codePointAt(0);
+
+        if (codePoint < syllableBase || codePoint > 0xd7a3) {
+          return null;
+        }
+
+        const syllableIndex = codePoint - syllableBase;
+        const finalIndex = syllableIndex % 28;
+
+        if (finalIndex !== 0) {
+          return null;
+        }
+
+        const initialIndex = Math.floor(syllableIndex / 588);
+        const medialIndex = Math.floor((syllableIndex % 588) / 28);
+
+        return {
+          consonant: initialConsonants[initialIndex],
+          vowel: medialVowels[medialIndex],
+        };
+      }
+
+      function updateRow(row, character, components) {
+        row.querySelector(".consonant").textContent = components.consonant;
+        row.querySelector(".vowel").textContent = components.vowel;
+
+        const cell = row.querySelector(".practice-cell");
+        const blankCheckbox = row.querySelector("input[type='checkbox']");
+
+        cell.replaceChildren();
+
+        if (!blankCheckbox.checked) {
+          const practiceCharacter = document.createElement("span");
+          practiceCharacter.className = "practice-character";
+          practiceCharacter.textContent = character;
+          cell.append(practiceCharacter);
+        }
+      }
+
+      function render() {
+        const accepted = Array.from(input.value)
+          .map((character) => ({
+            character,
+            components: getComponents(character),
+          }))
+          .filter((item) => item.components)
+          .slice(0, 5);
+
+        rows.replaceChildren();
+        emptyState.hidden = accepted.length > 0;
+
+        accepted.forEach(({ character, components }) => {
+          const row = rowTemplate.content.firstElementChild.cloneNode(true);
+          const blankCheckbox = row.querySelector("input[type='checkbox']");
+
+          updateRow(row, character, components);
+          blankCheckbox.addEventListener("change", () =>
+            updateRow(row, character, components),
+          );
+          rows.append(row);
+        });
+      }
+
+      input.addEventListener("input", render);
+      render();
+    </script>
+  </body>
+</html>
