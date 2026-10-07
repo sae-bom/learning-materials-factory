@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>시계 보기 학습지</title>
+    <title>시계 그리기 학습지</title>
     <link rel="stylesheet" href="../../../../shared/styles/fonts.css" />
     <link rel="stylesheet" href="../../../../shared/styles/colors.css" />
     <link rel="stylesheet" href="../../../../shared/styles/toolbar.css" />
@@ -109,11 +109,13 @@
         height: 50mm;
       }
 
-      .clock .hint {
+      .clock .hour,
+      .clock .minute {
         display: none;
       }
 
-      .show-hints .clock .hint {
+      .show-hour-hand .clock .hour,
+      .show-minute-hand .clock .minute {
         display: block;
       }
 
@@ -133,7 +135,7 @@
         gap: 5mm;
         padding: 3mm;
         border-left: 0.35mm dashed #c2c2c2;
-        font-size: 4mm;
+        font-size: 5mm;
         font-weight: 700;
         text-align: center;
       }
@@ -165,6 +167,14 @@
           <input id="colorMode" type="checkbox" checked />
           컬러 모드
         </label>
+        <label class="toolbar-option">
+          <input id="showHourHand" type="checkbox" />
+          시침 표시
+        </label>
+        <label class="toolbar-option">
+          <input id="showMinuteHand" type="checkbox" />
+          분침 표시
+        </label>
         <button class="primary" id="newSheet" type="button">
           새 학습지 만들기
         </button>
@@ -178,6 +188,8 @@
       const difficulty = document.querySelector("#difficulty");
       const minuteHints = document.querySelector("#minuteHints");
       const colorMode = document.querySelector("#colorMode");
+      const showHourHand = document.querySelector("#showHourHand");
+      const showMinuteHand = document.querySelector("#showMinuteHand");
 
       function randomInt(max) {
         return Math.floor(Math.random() * max);
@@ -221,34 +233,38 @@
         const [hourX, hourY] = polar(50, 50, 23, hourAngle).split(",");
         const [minuteX, minuteY] = polar(50, 50, 34, minuteAngle).split(",");
 
-        return `<svg class="clock" viewBox="0 0 100 100" role="img" aria-label="아날로그 시계"><style>line{stroke:var(--gray-dark);stroke-width:1}text{font-family:var(--font-sans);font-size:8px;font-weight:700;fill:var(--ink)}.hint{font-size:4.5px;fill:var(--gray);font-weight:400}.face{fill:var(--paper);stroke:var(--ink);stroke-width:1.5}.hand{stroke:var(--ink);stroke-linecap:round}.hour{stroke-width:3}.minute{stroke-width:1.8}</style><circle class="face" cx="50" cy="50" r="43"/>${ticks}${numbers}<line class="hand hour" x1="50" y1="50" x2="${hourX}" y2="${hourY}"/><line class="hand minute" x1="50" y1="50" x2="${minuteX}" y2="${minuteY}"/><circle cx="50" cy="50" r="2.2" fill="var(--ink)"/></svg>`;
+        return `<svg class="clock" viewBox="0 0 100 100" role="img" aria-label="바늘을 그리는 시계"><style>line{stroke:var(--gray-dark);stroke-width:1}text{font-family:var(--font-sans);font-size:8px;font-weight:700;fill:var(--ink)}.hint{display:none;font-size:4.5px;fill:var(--gray);font-weight:400}.show-hints .hint{display:block}.face{fill:var(--paper);stroke:var(--ink);stroke-width:1.5}.hand{stroke:var(--ink);stroke-linecap:round}.hour{stroke-width:3}.minute{stroke-width:1.8}</style><circle class="face" cx="50" cy="50" r="43"/>${ticks}${numbers}<line class="hand hour" x1="50" y1="50" x2="${hourX}" y2="${hourY}"/><line class="hand minute" x1="50" y1="50" x2="${minuteX}" y2="${minuteY}"/><circle cx="50" cy="50" r="2.2" fill="var(--ink)"/></svg>`;
       }
 
       function render() {
         const mode = difficulty.value;
         const cards = Array.from({ length: 8 }, () => {
           const time = makeTime(mode);
-          return `<article class="question"><div class="clock-wrap">${clockSvg(time, mode === "any")}</div><div class="answer"><span>____시 ____분</span></div></article>`;
+          return `<article class="question"><div class="clock-wrap">${clockSvg(time, mode === "any")}</div><div class="answer"><span>${time.hour}시 ${time.minute}분</span></div></article>`;
         }).join("");
         document.querySelector("#worksheets").innerHTML =
-          `<section class="sheet${minuteHints.checked ? " show-hints" : ""}${colorMode.checked ? " color-mode" : ""}" data-print-page data-png-filename="시계보기_학습지"><header class="header"><h1>시계 보기</h1><span class="sub">시계를 보고 시간을 써 보세요</span></header><p class="instruction">긴 바늘과 짧은 바늘을 살펴보고, 몇 시 몇 분인지 써 보세요.</p><div class="questions">${cards}</div></section>`;
+          `<section class="sheet${minuteHints.checked ? " show-hints" : ""}${colorMode.checked ? " color-mode" : ""}${showHourHand.checked ? " show-hour-hand" : ""}${showMinuteHand.checked ? " show-minute-hand" : ""}" data-print-page data-png-filename="시계그리기_학습지"><header class="header"><h1>시계 그리기</h1><span class="sub">시각을 보고 시계에 바늘을 그려 보세요</span></header><p class="instruction">주어진 시각을 읽고 빈 시계에 시침과 분침을 그려 보세요.</p><div class="questions">${cards}</div></section>`;
       }
 
-      function toggleMinuteHints() {
+      function toggleClass(control, className) {
         document
           .querySelector(".sheet")
-          ?.classList.toggle("show-hints", minuteHints.checked);
-      }
-
-      function toggleColorMode() {
-        document
-          .querySelector(".sheet")
-          ?.classList.toggle("color-mode", colorMode.checked);
+          ?.classList.toggle(className, control.checked);
       }
 
       difficulty.addEventListener("change", render);
-      minuteHints.addEventListener("change", toggleMinuteHints);
-      colorMode.addEventListener("change", toggleColorMode);
+      minuteHints.addEventListener("change", () =>
+        toggleClass(minuteHints, "show-hints"),
+      );
+      colorMode.addEventListener("change", () =>
+        toggleClass(colorMode, "color-mode"),
+      );
+      showHourHand.addEventListener("change", () =>
+        toggleClass(showHourHand, "show-hour-hand"),
+      );
+      showMinuteHand.addEventListener("change", () =>
+        toggleClass(showMinuteHand, "show-minute-hand"),
+      );
       document.querySelector("#newSheet").addEventListener("click", render);
       document
         .querySelector("#print")
